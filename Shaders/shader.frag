@@ -89,15 +89,19 @@ vec4 map(vec3 p) {
     
     vec3 col;
 
-    // Colors 
+    // Colors
+    // Not sure if this is the best way to go about adding colors. 
+    // I just kinda winged it lol
+    
     vec3 lbCol = vec3(0.4392, 0.3529, 0.1608);
     vec3 ubCol = vec3(0.4392, 0.3529, 0.1608);
     vec3 limbCol = vec3(0.4392, 0.3529, 0.1608);
     col = mix(col, lbCol, clamp(1.-lBody, 0.,1.)); // Lower bod
     col = mix(col, ubCol, clamp(1.-uBody, 0.,1.)); // Upper bod
     col = mix(col, limbCol, clamp(pow(1.-limbs, 100.), 0.,1.)); // Arms
-    col = mix(col, vec3(0.102, 0.0902, 0.0667), clamp(1.-ground, 0.,1.)); // Ground
 
+    // Ground
+    col = mix(col, vec3(0.102, 0.0902, 0.0667), clamp(1.-ground, 0.,1.));
 
     return vec4(col, m);
 }
@@ -166,11 +170,10 @@ vec3 render(vec2 uv) {
         
         // Normal Shading --> Simple Cel-Shading
         hlDiffuse = clamp(floor(hlDiffuse * 3.) /3. + .25, 0., 1.); 
-        specular = floor(specular* 4.);
+        specular = clamp(floor(specular * 8.), 0., 1.) * 0.25;
 
 
-
-        color = clamp(hlDiffuse + specular,0.,1.) * dist.xyz;
+        color = (clamp(hlDiffuse,0.,1.) * dist.xyz)+specular;
         //color = dist.xyz;
     }
     else { // "Skybox"/Background
