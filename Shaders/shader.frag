@@ -1,6 +1,5 @@
 precision mediump float;
 
-
 uniform float u_time;
 uniform vec2 u_resolution;
 uniform vec2 u_mouse;
@@ -19,6 +18,8 @@ float sdfBox(vec3 p, vec3 s) {
 
 float sdfSphere(vec3 p, float r) { return length(p) - r; }
 
+
+// Credit: Inigo Quilez
 vec2 sdfStick(vec3 p, vec4 a, vec4 b) {
     vec3 pa = p.xyz-a.xyz, ba = b.xyz-a.xyz;
 	float h = clamp( dot(pa,ba)/dot(ba,ba), 0.0, 1.0 );
